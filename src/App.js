@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import { Admin, Resource } from "react-admin";
+import Dashboard from "./components/Dashboard";
+// import jsonServerProvider from "ra-data-json-server";
+import simpleRestProvider from "ra-data-simple-rest";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import {
+  CandidateEdit,
+  CandidateList,
+  CandidateCreate,
+} from "./components/Candidate";
+import {
+  CertificationEdit,
+  CertificationList,
+  CertificationCreate,
+} from "./components/Certifications";
 
-function App() {
+// const dataProvider = jsonServerProvider("https://jsonplaceholder.typicode.com");
+const dataProvider = simpleRestProvider("http://localhost:8080/api");
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Admin dashboard={Dashboard} dataProvider={dataProvider}>
+      <Resource
+        name="candidates"
+        list={CandidateList}
+        edit={CandidateEdit}
+        create={CandidateCreate}
+        icon={SupervisedUserCircleIcon}
+      />
+      <Resource
+        name="certifications"
+        list={CertificationList}
+        edit={CertificationEdit}
+        create={CertificationCreate}
+        icon={EmojiEventsIcon}
+      />
+    </Admin>
   );
-}
+};
 
 export default App;
